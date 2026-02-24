@@ -21,7 +21,9 @@ public class ArrayList {
         this.data = new int[INITIAL_SIZE];
         this.sz = 0;
     }
-
+    /** 
+     * Ensures that the backing array has room for atleast one more element
+    */
     private void ensureCapacity() {
         if (sz == data.length) {
             data = Arrays.copyOf(data, data.length * 2);
@@ -48,6 +50,7 @@ public class ArrayList {
     /**
      * @param index the index of the element to retrieve
      * @return the value at the specified <code>index</code>
+     * @throws IndexOutOfBoundsException if index is negative or >= size  of the list
      */
     public int get(int index) {
         if (index < 0 || index >= sz) {
@@ -61,6 +64,7 @@ public class ArrayList {
      * 
      * @param index the index of the element to remove
      * @return the element at <code>index</code>
+     * @throws IndexOutOfBoundsException if index is negative or >= size  of the list
      */
     public int remove(int index) {
         if (index < 0 || index >= sz) {

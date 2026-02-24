@@ -9,6 +9,12 @@ public class LinkedListInt {
 
         public Node next;
 
+        /**
+         * Constructs a new node with the given value and next pointer
+         * 
+         * @param value the int value stored in the node
+         * @param next the next node in the chain
+         */
         public Node(int value, Node next) {
             this.value = value;
             this.next = next;
