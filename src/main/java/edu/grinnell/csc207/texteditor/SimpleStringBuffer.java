@@ -9,7 +9,7 @@ public class SimpleStringBuffer implements Buffer {
     private int cursor;
 
     /**
-     * Makes a new and empty SimpleStringBuffer with the currsor at the index 0
+     * Makes a new and empty SimpleStringBuffer with the cursor at the index 0
      */
     public SimpleStringBuffer() {
         data = "";
@@ -17,8 +17,8 @@ public class SimpleStringBuffer implements Buffer {
     }
 
     /**
-     * Inserts 'ch' into the buffer at the currsor position, moves the cursor
-     * one postiosn forward
+     * Inserts 'ch' into the buffer at the cursor position, moves the cursor
+     * one position forward
      * 
      * @param ch the character to insert
      */
@@ -28,8 +28,8 @@ public class SimpleStringBuffer implements Buffer {
     }
 
     /**
-     * Delets the character to the left of the current postition of the cursor, then
-     * moves the cursor one position backwards. If at the begignin of the buffer, it 
+     * Deletes the character to the left of the current postition of the cursor, then
+     * moves the cursor one position backwards. If at the beginning of the buffer, it 
      * does nothing
      */
     public void delete() {
@@ -58,7 +58,7 @@ public class SimpleStringBuffer implements Buffer {
         }
     }
     /**
-     * Moves the cursor one position to the left, does nothing if it is at the 
+     * Moves the cursor one position to the right, does nothing if it is at the 
      * beginning of the buffer
      */
 
@@ -78,7 +78,7 @@ public class SimpleStringBuffer implements Buffer {
     }
 
     /**
-     * return the charachter at the specified index
+     * return the character at the specified index
      * 
      * @param i the zero-based index of the character to get
      * @return the character at the index given
@@ -86,7 +86,7 @@ public class SimpleStringBuffer implements Buffer {
      */
     
     public char getChar(int i) {
-        if (i > data.length() || i < 0) {
+        if (i >= data.length() || i < 0) {
             throw new IndexOutOfBoundsException();
         }
         return data.charAt(i);
