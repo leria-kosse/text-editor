@@ -35,7 +35,8 @@ public class SimpleStringBufferTests {
         bufy.insert('W');
         bufy.insert('h');
 
-        assertEquals("Whlo world", bufy.toString());
+        assertEquals("Whlo world!", bufy.toString());
+        assertEquals(2, bufy.getCursorPosition());
    
     }
 
@@ -50,6 +51,24 @@ public class SimpleStringBufferTests {
          assertEquals(0, bufy.getSize());
     }
 
+    /**
+     * Test getSize method
+     */
+
+    @Test
+    public void testGetSize() {
+        SimpleStringBuffer bufy = new SimpleStringBuffer();
+
+         assertEquals(0, bufy.getSize());
+
+        bufy.insert('a');
+        bufy.insert('b');
+        
+        assertEquals(2, bufy.getSize());
+
+        bufy.delete();
+        assertEquals(1, bufy.getSize());
+    }
 
     /**
      * Test getChar gives returns correctly
@@ -66,6 +85,35 @@ public class SimpleStringBufferTests {
         assertEquals('b', bufy.getChar(1));
         assertEquals('c', bufy.getChar(2));
     }
+
+    /**
+     * Testing a negative getChar value
+     */
+    @Test
+    public void testNegativeGetCharIndex() {
+        SimpleStringBuffer bufy = new SimpleStringBuffer();
+
+        bufy.insert('a');
+
+        assertThrows(IndexOutOfBoundsException.class, () -> bufy.getChar(-1));
+    }
+
+    /**
+     * Testing instering in the middel of a word
+     */
+    @Test
+    public void testInsertInMiddel() {
+        SimpleStringBuffer bufy = new SimpleStringBuffer();
+
+        bufy.insert('a');
+        bufy.insert('c');
+        bufy.moveLeft();
+        bufy.insert('b');
+
+        assertEquals("abc", bufy.toString());
+        assertEquals(2, bufy.getCursorPosition());
+    }
+
 
     /**
      * Test Delete on a new buffer
@@ -118,5 +166,23 @@ public class SimpleStringBufferTests {
     }
 
 
+    /**
+     * 
+     * Property: inserting 'n' characters should always get us a buffer that of size 'n'
+     * and a corsor position at 'n'. 
+     */
+
+    @Property
+    public void bufferSizeCursorPos (@ForAll String s) {
+            SimpleStringBuffer bufy = new SimpleStringBuffer();
+
+            for(char ch : s.toCharArray()) { 
+                bufy.insert(ch);
+            }
+
+            assertEquals(s.length(), bufy.getSize());
+            assertEquals(s.length(), bufy.getCursorPosition());
+            assertEquals(s, bufy.toString());
+    }
     
 }
