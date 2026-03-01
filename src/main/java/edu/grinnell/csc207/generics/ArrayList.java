@@ -96,6 +96,7 @@ public class ArrayList<T> implements List<T> {
      * Cannot be implemented for a generic list because T can be any type, so we
      * cannot have a maximum value chosen.
      *
+     * @return never returns
      * @throws UnsupportedOperationException always, because the comparison of the
      *     arbitrary types is not supported.
      */
