@@ -7,109 +7,104 @@ public class GapBuffer implements Buffer {
 
     private static final int INITIAL_SIZE = 8;
     private char[] data;
-    private int cursor_first;
-    private int cursor_last;
+    private int cursorFirst;
+    private int cursorLast;
 
     /**
-     * Makes a new and empty GapBuffer with an intital size
+     * Makes a new and empty GapBuffer with an initial size.
      */
     public GapBuffer() {
         data = new char[INITIAL_SIZE];
-        cursor_first = 0;
-        cursor_last = data.length;
+        cursorFirst = 0;
+        cursorLast = data.length;
     }
 
     /**
-     * Ensures that the backing array has room for atleast one more element
+     * Ensures that the backing array has room for at least one more element.
      */
     private void ensureCapacity() {
         char[] newData = new char[data.length * 2];
-        for (int i = 0; i < cursor_first; i++) {
+        for (int i = 0; i < cursorFirst; i++) {
             newData[i] = data[i];
         }
-        for (int i = newData.length - 1; i >= cursor_last; i--) {
+        for (int i = newData.length - 1; i >= cursorLast; i--) {
             newData[i] = data[i - (newData.length - data.length)];
         }
-        cursor_last = cursor_last + (newData.length - data.length);
+        cursorLast = cursorLast + (newData.length - data.length);
         data = newData;
     }
 
     /**
      * Inserts a character into the buffer at the position of the
-     * cursor_first(beginning of the gap).
-     * If the array is full, we first expand it by callind esureCapacity and then
-     * proceed with
-     * insertion.
-     * 
+     * cursorFirst (beginning of the gap).
+     * If the array is full, we first expand it by calling ensureCapacity and then
+     * proceed with insertion.
+     *
      * @param ch the character to insert
      */
     public void insert(char ch) {
-        if (cursor_first == cursor_last) {
+        if (cursorFirst == cursorLast) {
             ensureCapacity();
         }
-
-        data[cursor_first] = ch;
-        cursor_first++;
+        data[cursorFirst] = ch;
+        cursorFirst++;
     }
 
     /**
      * Deletes a character from the buffer at the position of the
-     * cursor_first(beginning of the gap).
-     * 
+     * cursorFirst (beginning of the gap).
      */
     public void delete() {
-        if (cursor_first > 0) {
-            cursor_first--;
+        if (cursorFirst > 0) {
+            cursorFirst--;
         }
     }
 
     /**
-     * Returns the position of the cursor_first(beginning of the gap).
-     * 
+     * Returns the position of the cursorFirst (beginning of the gap).
+     *
      * @return int indexed location of the cursor
      */
     public int getCursorPosition() {
-        return cursor_first;
+        return cursorFirst;
     }
 
     /**
      * Moves the cursor one position to the left by taking the character
-     * at cursor_first - 1 and moving it to cursor_last - 1.
-     * 
+     * at cursorFirst - 1 and moving it to cursorLast - 1.
      */
     public void moveLeft() {
-        if (cursor_first > 0) {
-            data[cursor_last - 1] = data[cursor_first - 1];
-            cursor_first--;
-            cursor_last--;
+        if (cursorFirst > 0) {
+            data[cursorLast - 1] = data[cursorFirst - 1];
+            cursorFirst--;
+            cursorLast--;
         }
     }
 
     /**
      * Moves the cursor one position to the right by taking the character
-     * at cursor_last and moving it to cursor_first.
-     * 
+     * at cursorLast and moving it to cursorFirst.
      */
     public void moveRight() {
-        if (cursor_last < data.length) {
-            data[cursor_first] = data[cursor_last];
-            cursor_first++;
-            cursor_last++;
+        if (cursorLast < data.length) {
+            data[cursorFirst] = data[cursorLast];
+            cursorFirst++;
+            cursorLast++;
         }
     }
 
     /**
      * Returns the size of the String stored in the data (omitting the gap).
-     * 
+     *
      * @return int size of the String
      */
     public int getSize() {
-        return cursor_first + (data.length - cursor_last);
+        return cursorFirst + (data.length - cursorLast);
     }
 
     /**
-     * return the character at the specified index (omitting the gap)
-     * 
+     * Returns the character at the specified index (omitting the gap).
+     *
      * @param i the zero-based index of the character to get
      * @return the character at the index given
      * @throws IndexOutOfBoundsException if it is negative or >= size of the buffer
@@ -117,23 +112,21 @@ public class GapBuffer implements Buffer {
     public char getChar(int i) {
         if (i < 0 || i >= getSize()) {
             throw new IndexOutOfBoundsException();
-        } else if (i < cursor_first) {
+        } else if (i < cursorFirst) {
             return data[i];
         } else {
-            return data[cursor_last + (i - cursor_first)];
+            return data[cursorLast + (i - cursorFirst)];
         }
     }
 
-
     /**
-     * Returns the contents of the buffer as a string by linking the 
-     * before cursor and after cursor areas into one skipping the gap
+     * Returns the contents of the buffer as a string by linking the
+     * before cursor and after cursor areas into one, skipping the gap.
+     *
+     * @return a string representation of the buffer contents
      */
-
-    
-
     public String toString() {
-        return new String(data, 0, cursor_first) + new String(data, cursor_last, data.length - cursor_last);
+        return new String(data, 0, cursorFirst)
+                + new String(data, cursorLast, data.length - cursorLast);
     }
-
 }

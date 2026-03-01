@@ -8,9 +8,7 @@ import java.util.Arrays;
 public class ArrayList<T> implements List<T> {
 
     private static final int INITIAL_SIZE = 8;
-
     private T[] data;
-
     private int sz;
 
     /**
@@ -28,8 +26,8 @@ public class ArrayList<T> implements List<T> {
     }
 
     /**
-     * Adds <code>value</code> to the end of the list
-     * 
+     * Adds <code>value</code> to the end of the list.
+     *
      * @param value the value to add to the end of the list
      */
     public void add(T value) {
@@ -38,6 +36,8 @@ public class ArrayList<T> implements List<T> {
     }
 
     /**
+     * Returns the number of elements in the list.
+     *
      * @return the number of elements in the list
      */
     public int size() {
@@ -45,6 +45,8 @@ public class ArrayList<T> implements List<T> {
     }
 
     /**
+     * Returns the value at the specified index.
+     *
      * @param index the index of the element to retrieve
      * @return the value at the specified <code>index</code>
      */
@@ -56,8 +58,8 @@ public class ArrayList<T> implements List<T> {
     }
 
     /**
-     * Removes the value at <code>index</code> from the list
-     * 
+     * Removes the value at <code>index</code> from the list.
+     *
      * @param index the index of the element to remove
      * @return the element at <code>index</code>
      */
@@ -76,7 +78,7 @@ public class ArrayList<T> implements List<T> {
 
     /**
      * Inserts sep in between each element of the list.
-     * 
+     *
      * @param sep the separator to intersperse
      */
     public void intersperse(T sep) {
@@ -90,20 +92,20 @@ public class ArrayList<T> implements List<T> {
         }
     }
 
-    
     /**
      * Cannot be implemented for a generic list because T can be any type, so we
      * cannot have a maximum value chosen.
-     * 
+     *
      * @throws UnsupportedOperationException always, because the comparison of the
-     * arbitrary types is not supported.
-     * 
+     *     arbitrary types is not supported.
      */
     public T maximum() {
         throw new UnsupportedOperationException();
     }
 
     /**
+     * Returns a string representation of the list.
+     *
      * @return a string representation of the list
      */
     public String toString() {
@@ -120,9 +122,9 @@ public class ArrayList<T> implements List<T> {
     /**
      * Cannot be implemented for a generic list because T can be any type, so we
      * cannot have a default ordering.
-     * 
-     * @throws UnsupportedOperationException always, becasue comparsison of 
-     * generic types is not possible.
+     *
+     * @throws UnsupportedOperationException always, because comparison of
+     *     generic types is not possible.
      */
     public void insertionSort() {
         throw new UnsupportedOperationException();

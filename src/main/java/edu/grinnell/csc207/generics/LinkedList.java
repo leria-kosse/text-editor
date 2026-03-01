@@ -1,7 +1,13 @@
 package edu.grinnell.csc207.generics;
 
-public class LinkedList<T> implements List<T>{
-     private static class Node<T> {
+/**
+ * A linked-list implementation of a list.
+ *
+ * @param <T> the type of elements in the list
+ */
+public class LinkedList<T> implements List<T> {
+
+    private static class Node<T> {
         public T value;
         Node<T> next;
 
@@ -12,29 +18,35 @@ public class LinkedList<T> implements List<T>{
     }
 
     private Node<T> first;
+
+    /**
+     * Constructs a new, empty linked list.
+     */
     public LinkedList() {
         first = null;
     }
-    
+
     /**
-     * Adds <code>value</code> to the end of the list
-     * 
+     * Adds <code>value</code> to the end of the list.
+     *
      * @param value the value to add to the end of the list
      */
     public void add(T value) {
         Node<T> newNode = new Node<>(value);
-         if (first == null) {
+        if (first == null) {
             first = newNode;
         } else {
             Node<T> cur = first;
             while (cur.next != null) {
                 cur = cur.next;
             }
-            cur.next = newNode;}
-
+            cur.next = newNode;
+        }
     }
 
     /**
+     * Returns the number of elements in the list.
+     *
      * @return the number of elements in the list
      */
     public int size() {
@@ -48,6 +60,8 @@ public class LinkedList<T> implements List<T>{
     }
 
     /**
+     * Returns the value at the specified index.
+     *
      * @param index the index of the element to retrieve
      * @return the value at the specified <code>index</code>
      */
@@ -68,9 +82,9 @@ public class LinkedList<T> implements List<T>{
         }
     }
 
- /**
-     * Removes the value at <code>index</code> from the list
-     * 
+    /**
+     * Removes the value at <code>index</code> from the list.
+     *
      * @param index the index of the element to remove
      * @return the element at <code>index</code>
      */
@@ -98,4 +112,3 @@ public class LinkedList<T> implements List<T>{
         }
     }
 }
-
