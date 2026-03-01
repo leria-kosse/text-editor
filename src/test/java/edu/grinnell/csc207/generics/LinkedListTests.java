@@ -3,18 +3,20 @@ package edu.grinnell.csc207.generics;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.stream.IntStream;
+
 import org.junit.jupiter.api.Test;
 
-public class ArrayListTests {
+public class LinkedListTests {
     @Test
     public void emptyListTest() {
-        ArrayList<Integer> l = new ArrayList<>();
+        LinkedList<Integer> l = new LinkedList<>();
         assertEquals(0, l.size());
     }
 
     @Test
     public void listAddSizeTest() {
-        ArrayList<Integer> l = new ArrayList<>();
+        LinkedList<Integer> l = new LinkedList<>();
         for (int i = 0; i < 10; i++) {
             l.add(i);
         }
@@ -23,7 +25,7 @@ public class ArrayListTests {
 
     @Test
     public void listRemoveSome() {
-        ArrayList<String> l = new ArrayList<>();
+        LinkedList<String> l = new LinkedList<>();
         l.add("10"); // index 0
         l.add("20"); // index 1
         l.add("30"); // 2
@@ -37,5 +39,5 @@ public class ArrayListTests {
         assertEquals("30", l.get(1)); // get the removed index value wich should be updated
 
     }
-
+    
 }

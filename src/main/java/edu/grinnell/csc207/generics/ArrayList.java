@@ -5,25 +5,22 @@ import java.util.Arrays;
 /**
  * An array-based implementation of a list, specialized to ints.
  */
-public class ArrayList {
+public class ArrayList<T> implements List<T> {
 
     private static final int INITIAL_SIZE = 8;
 
-    private int[] data;
+    private T[] data;
 
     private int sz;
 
     /**
      * Constructs a new, empty array list.
      */
-    @SuppressWarnings("unchecked")
     public ArrayList() {
-        this.data = new int[INITIAL_SIZE];
+        this.data = (T[]) new Object[INITIAL_SIZE];
         this.sz = 0;
     }
-    /** 
-     * Ensures that the backing array has room for atleast one more element
-    */
+
     private void ensureCapacity() {
         if (sz == data.length) {
             data = Arrays.copyOf(data, data.length * 2);
@@ -35,7 +32,7 @@ public class ArrayList {
      * 
      * @param value the value to add to the end of the list
      */
-    public void add(int value) {
+    public void add(T value) {
         ensureCapacity();
         data[sz++] = value;
     }
@@ -50,9 +47,8 @@ public class ArrayList {
     /**
      * @param index the index of the element to retrieve
      * @return the value at the specified <code>index</code>
-     * @throws IndexOutOfBoundsException if index is negative or >= size  of the list
      */
-    public int get(int index) {
+    public T get(int index) {
         if (index < 0 || index >= sz) {
             throw new IndexOutOfBoundsException(index);
         }
@@ -64,18 +60,71 @@ public class ArrayList {
      * 
      * @param index the index of the element to remove
      * @return the element at <code>index</code>
-     * @throws IndexOutOfBoundsException if index is negative or >= size  of the list
      */
-    public int remove(int index) {
+    public T remove(int index) {
         if (index < 0 || index >= sz) {
             throw new IndexOutOfBoundsException(index);
         } else {
-            int ret = data[index];
+            T ret = data[index];
             for (int i = index; i < data.length - 1; i++) {
                 data[i] = data[i + 1];
             }
             sz -= 1;
             return ret;
         }
+    }
+
+    /**
+     * Inserts sep in between each element of the list.
+     * 
+     * @param sep the separator to intersperse
+     */
+    public void intersperse(T sep) {
+        for (int i = 0; i < sz; i += 2) {
+            ensureCapacity();
+            for (int j = sz; j > i; j--) {
+                data[j] = data[j - 1];
+            }
+            data[i] = sep;
+            sz++;
+        }
+    }
+
+    
+    /**
+     * Cannot be implemented for a generic list because T can be any type, so we
+     * cannot have a maximum value chosen.
+     * 
+     * @throws UnsupportedOperationException always, because the comparison of the
+     * arbitrary types is not supported.
+     * 
+     */
+    public T maximum() {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @return a string representation of the list
+     */
+    public String toString() {
+        String result = "[";
+        for (int i = 0; i < sz; i++) {
+            result += data[i];
+            if (i < sz - 1) {
+                result += ", ";
+            }
+        }
+        return result + "]";
+    }
+
+    /**
+     * Cannot be implemented for a generic list because T can be any type, so we
+     * cannot have a default ordering.
+     * 
+     * @throws UnsupportedOperationException always, becasue comparsison of 
+     * generic types is not possible.
+     */
+    public void insertionSort() {
+        throw new UnsupportedOperationException();
     }
 }
