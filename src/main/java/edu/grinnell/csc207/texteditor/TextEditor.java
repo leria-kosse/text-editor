@@ -41,7 +41,7 @@ public class TextEditor {
     public static void main(String[] args) throws IOException {
         if (args.length != 1) {
             System.err.println("Usage: java TextEditor <filename>");
-            System.exit(0);
+            System.exit(1);
         }
         String path = args[0];
         GapBuffer bufy = new GapBuffer();
