@@ -68,7 +68,6 @@ public class TextEditor {
         // step up screen
         Screen screen = new DefaultTerminalFactory().createScreen();
         screen.startScreen();
-        System.out.format("Loading %s...\n", path);
 
         // makes initial screen
         drawBuffer(bufy, screen);

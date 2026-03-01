@@ -1,15 +1,16 @@
 package edu.grinnell.csc207.texteditor;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import net.jqwik.api.*;
+
 
 public class GapBufferTests {
     /** TODO: fill me in with unit and property tests! */
-     @Test
+
+    @Test
     public void testingItRightNow() {
-        SimpleStringBuffer bufy = new SimpleStringBuffer();
+        GapBuffer bufy = new GapBuffer();
 
         //Typing new words
         for (char ch : "Hello world!".toCharArray()) {
@@ -34,7 +35,8 @@ public class GapBufferTests {
         bufy.insert('W');
         bufy.insert('h');
 
-        assertEquals("Whlo world", bufy.toString());
+        assertEquals("Whlo world!", bufy.toString());
+        assertEquals(2, bufy.getCursorPosition());
    
     }
 
@@ -43,12 +45,30 @@ public class GapBufferTests {
      */
     @Test
     public void testEmptyBuffer() {
-         SimpleStringBuffer bufy = new SimpleStringBuffer();
+         GapBuffer bufy = new GapBuffer();
          assertEquals("", bufy.toString());
          assertEquals(0, bufy.getCursorPosition());
          assertEquals(0, bufy.getSize());
     }
 
+    /**
+     * Test getSize method
+     */
+
+    @Test
+    public void testGetSize() {
+        GapBuffer bufy = new GapBuffer();
+
+         assertEquals(0, bufy.getSize());
+
+        bufy.insert('a');
+        bufy.insert('b');
+        
+        assertEquals(2, bufy.getSize());
+
+        bufy.delete();
+        assertEquals(1, bufy.getSize());
+    }
 
     /**
      * Test getChar gives returns correctly
@@ -56,7 +76,7 @@ public class GapBufferTests {
 
     @Test
     public void testGetChar() {
-        SimpleStringBuffer bufy = new SimpleStringBuffer();
+        GapBuffer bufy = new GapBuffer();
 
         bufy.insert('a');
         bufy.insert('b');
@@ -67,11 +87,40 @@ public class GapBufferTests {
     }
 
     /**
+     * Testing a negative getChar value
+     */
+    @Test
+    public void testNegativeGetCharIndex() {
+        GapBuffer bufy = new GapBuffer();
+
+        bufy.insert('a');
+
+        assertThrows(IndexOutOfBoundsException.class, () -> bufy.getChar(-1));
+    }
+
+    /**
+     * Testing instering in the middel of a word
+     */
+    @Test
+    public void testInsertInMiddel() {
+        GapBuffer bufy = new GapBuffer();
+
+        bufy.insert('a');
+        bufy.insert('c');
+        bufy.moveLeft();
+        bufy.insert('b');
+
+        assertEquals("abc", bufy.toString());
+        assertEquals(2, bufy.getCursorPosition());
+    }
+
+
+    /**
      * Test Delete on a new buffer
      */
     @Test
     public void testDeleteOnEmpty() {
-        SimpleStringBuffer bufy = new SimpleStringBuffer();
+        GapBuffer bufy = new GapBuffer();
         
         bufy.delete();
         assertEquals("", bufy.toString());
@@ -83,7 +132,7 @@ public class GapBufferTests {
      */
     @Test
     public void testMoveLeftAtBeginning() {
-        SimpleStringBuffer bufy = new SimpleStringBuffer();
+        GapBuffer bufy = new GapBuffer();
         
         bufy.moveLeft();
         assertEquals(0, bufy.getCursorPosition());
@@ -95,7 +144,7 @@ public class GapBufferTests {
 
     @Test
     public void testMoveRightAtEnd () {
-        SimpleStringBuffer bufy = new SimpleStringBuffer();
+        GapBuffer bufy = new GapBuffer();
 
         bufy.insert('a');
         bufy.moveRight();
@@ -109,11 +158,31 @@ public class GapBufferTests {
 
     @Test
     public void testGetCharOutOfBounds () {
-        SimpleStringBuffer bufy = new SimpleStringBuffer();
+        GapBuffer bufy = new GapBuffer();
 
         bufy.insert('a');
 
         assertThrows(IndexOutOfBoundsException.class, () -> bufy.getChar(1));
     }
 
+
+    /**
+     * 
+     * Property: inserting 'n' characters should always get us a buffer that of size 'n'
+     * and a corsor position at 'n'.
+     */
+
+    @Property
+    public void bufferSizeCursorPos (@ForAll String s) {
+            GapBuffer bufy = new GapBuffer();
+
+            for(char ch : s.toCharArray()) { 
+                bufy.insert(ch);
+            }
+
+            assertEquals(s.length(), bufy.getSize());
+            assertEquals(s.length(), bufy.getCursorPosition());
+            assertEquals(s, bufy.toString());
+    }
+    
 }
